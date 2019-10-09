@@ -23,8 +23,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Setup cargo-make
+      shell: bash
       run: |
-        rustup update ${{ env.RUSTUP_TOOLCHAIN}} || curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTUP_TOOLCHAIN
+        rustup update $RUSTUP_TOOLCHAIN || curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUSTUP_TOOLCHAIN
         cargo install cargo-make
     - name: Run tests
       run: cargo make --disable-check-for-updates --profile ${{ matrix.os.PROFILE }} ci-flow
