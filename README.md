@@ -1,4 +1,4 @@
-# Experimentation CI Rust
+# Experiment CI Rust
 
 A project to experiment setup of CI + Rust.
 The project use cargo-make to:
