@@ -1,8 +1,9 @@
 name: release-flow
 
+# https://help.github.com/en/articles/events-that-trigger-workflows#release-event-release
 # on:
 #   release:
-#     types: [created]
+#     types: [published]
 on:
   push:
     branches:
@@ -37,6 +38,6 @@ jobs:
     - name: Make zip-release-ci-flow
       run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} --env TARGET=${{matrix.os.target}} zip-release-ci-flow
     - name: Upload to gitHub release
-      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} github-upload-flow
+      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} --env TARGET=${{matrix.os.target}} github-upload-flow
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
