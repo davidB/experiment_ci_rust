@@ -4,6 +4,7 @@ name: release-flow
 # on:
 #   release:
 #     types: [published]
+
 on:
   push:
     tags:
