@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: hecrj/setup-rust-action@v1
       with:
-        rust-version: ${{ matrix.rust }}
+        rust-version: ${{ matrix.rust_toolchain }}
     - uses: actions/checkout@v1
     - name: Setup rust, cargo
       shell: bash
