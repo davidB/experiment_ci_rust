@@ -10,35 +10,28 @@ jobs:
         rust_toolchain: ["stable"]
         os:
           - imageName: ubuntu-18.04
-            TARGET: x86_64-unknown-linux-gnu
-            PROFILE: linux
+            target: x86_64-unknown-linux-gnu
+            profile: linux
           - imageName: 'macOS-10.14'
-            TARGET: x86_64-apple-darwin
-            PROFILE: mac
+            target: x86_64-apple-darwin
+            profile: mac
           - imageName: 'windows-2019'
-            TARGET: x86_64-pc-windows-msvc
-            PROFILE: windows
+            target: x86_64-pc-windows-msvc
+            profile: windows
 
     steps:
     - uses: hecrj/setup-rust-action@v1
       with:
         rust-version: ${{ matrix.rust_toolchain }}
     - uses: actions/checkout@v1
-    # - name: Setup rust, cargo
-    #   shell: bash
-    #   run: |
-    #     rustup update ${{ matrix.rust_toolchain }} || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain ${{ matrix.rust_toolchain }}
     - name: Setup cargo-make
-      shell: bash
-      run: |
-        echo $PATH
-        cargo install cargo-make
+      run: cargo install cargo-make
     - name: Run tests
-      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.PROFILE }} ci-flow
+      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} --env TARGET=${{matrix.os.target}} ci-flow
     - name: Make zip-release-ci-flow
-      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.PROFILE }} zip-release-ci-flow
+      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} --env TARGET=${{matrix.os.target}} zip-release-ci-flow
     # - name: Upload to gitHub release
-    #   run: cargo make --disable-check-for-updates --profile ${{ matrix.os.PROFILE }} github-upload-flow
+    #   run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} github-upload-flow
       # if: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
       # env:
       #   GITHUB_TOKEN: $(GITHUB_TOKEN)
