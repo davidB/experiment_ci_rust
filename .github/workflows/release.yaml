@@ -26,6 +26,8 @@ jobs:
           - imageName: 'windows-2019'
             target: x86_64-pc-windows-msvc
             profile: windows
+    env:
+      TARGET: ${{matrix.os.target}}
 
     steps:
     - uses: hecrj/setup-rust-action@v1
@@ -35,8 +37,9 @@ jobs:
     - name: Setup cargo-make
       run: cargo install cargo-make
     - name: Make zip-release-ci-flow
-      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} --env TARGET=${{matrix.os.target}} zip-release-ci-flow
+      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} zip-release-ci-flow
     - name: Upload to gitHub release
-      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} --env TARGET=${{matrix.os.target}} github-upload-flow
+      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} github-upload-flow
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

@@ -31,6 +31,13 @@ DIST_EXT="zip"
 GITHUB_RELEASE_PATH="target\\bin\\windows\\amd64"
 GITHUB_RELEASE_PATH_REV="..\\..\\..\\..\\"
 
+[tasks.debug]
+script_runner = "@shell"
+script = [
+  'echo "FILE=${GITHUB_RELEASE_PATH_REV}${DIST_PATH}.${DIST_EXT}"',
+  'echo "TARGET=${TARGET}"',
+]
+
 [tasks.zip-release-ci-flow]
 description = "Compiles the binary in release mode and zips it up"
 category = "CI"
@@ -175,8 +182,6 @@ condition = { env_set = [ "GITHUB_RELEASE_PATH", "GITHUB_TOKEN", "DIST_NAME", "D
 script_runner = "@shell"
 script= [
 '''
-echo "FILE=${GITHUB_RELEASE_PATH_REV}${DIST_PATH}.${DIST_EXT}"
-echo "TARGET=${TARGET}"
 cd ${GITHUB_RELEASE_PATH}
 ./github-release release --tag "${CARGO_MAKE_CRATE_VERSION}" || echo "skip"
 ./github-release upload --tag "${CARGO_MAKE_CRATE_VERSION}" --name "${DIST_NAME}.${DIST_EXT}" --file "${GITHUB_RELEASE_PATH_REV}${DIST_PATH}.${DIST_EXT}"
