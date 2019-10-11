@@ -9,33 +9,25 @@ jobs:
       matrix:
         rust_toolchain: ["stable"]
         os:
-          # - imageName: ubuntu-18.04
-          #   TARGET: x86_64-unknown-linux-gnu
-          #   PROFILE: linux
+          - imageName: ubuntu-18.04
+            TARGET: x86_64-unknown-linux-gnu
+            PROFILE: linux
           - imageName: 'macOS-10.14'
             TARGET: x86_64-apple-darwin
             PROFILE: mac
-          # - imageName: 'windows-2019'
-          #   TARGET: x86_64-pc-windows-msvc
-          #   PROFILE: windows
+          - imageName: 'windows-2019'
+            TARGET: x86_64-pc-windows-msvc
+            PROFILE: windows
 
     steps:
     - uses: hecrj/setup-rust-action@v1
       with:
         rust-version: ${{ matrix.rust_toolchain }}
     - uses: actions/checkout@v1
-    - name: Setup rust, cargo
-      shell: bash
-      run: |
-        rustup update ${{ matrix.rust_toolchain }} || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain ${{ matrix.rust_toolchain }}
-    - name: Setup cargo env
-      if: matrix.os.PROFILE == 'mac'
-      shell: bash
-      run: |
-        echo "source $HOME/.cargo/env" >> $HOME/.bashrc
-        echo $PATH
-        source $HOME/.cargo/env
-        echo $PATH
+    # - name: Setup rust, cargo
+    #   shell: bash
+    #   run: |
+    #     rustup update ${{ matrix.rust_toolchain }} || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain ${{ matrix.rust_toolchain }}
     - name: Setup cargo-make
       shell: bash
       run: |
