@@ -42,4 +42,5 @@ jobs:
       run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} github-upload-flow
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
 
