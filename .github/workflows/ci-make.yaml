@@ -31,9 +31,13 @@ jobs:
       shell: bash
       run: |
         echo "source $HOME/.cargo/env" >> $HOME/.bashrc
+        echo $PATH
+        source $HOME/.cargo/env
+        echo $PATH
     - name: Setup cargo-make
       shell: bash
       run: |
+        echo $PATH
         cargo install cargo-make
     - name: Run tests
       run: cargo make --disable-check-for-updates --profile ${{ matrix.os.PROFILE }} ci-flow
