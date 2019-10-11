@@ -6,8 +6,6 @@ name: release-flow
 #     types: [published]
 on:
   push:
-    branches:
-      - master
     tags:
       - "[0-9]+.[0-9]+.[0-9]+*"
 
