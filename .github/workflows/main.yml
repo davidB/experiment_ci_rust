@@ -8,7 +8,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Hello world action step
-        uses: ./ # Uses an action in the root directory
+        uses: .github/actions/setup-cargo-make # Uses an action in the root directory
         id: setup-cargo-make
         with:
           who-to-greet: 'Mona the Octocat'
