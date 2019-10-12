@@ -8,7 +8,9 @@ CARGO_MAKE_TEST_COVERAGE_BINARY_FILTER = "cli-[a-z0-9]*$\\|makers-[a-z0-9]*$\\|$
 
 # TARGET is  {arch}-{vendor}-{sys}-{abi} the output of rustc --print target-list
 # TARGET = "${CARGO_MAKE_RUST_TARGET_ARCH}-${CARGO_MAKE_RUST_TARGET_VENDOR}-${CARGO_MAKE_RUST_TARGET_OS}-${CARGO_MAKE_RUST_TARGET_ENV}"
-DIST_NAME = "${CARGO_MAKE_CRATE_NAME}_${CARGO_MAKE_CRATE_VERSION}-${TARGET}"
+DIST_VERSION="${CARGO_MAKE_CRATE_VERSION}"
+# DIST_VERSION="${GITHUB_REF}"
+DIST_NAME = "${CARGO_MAKE_CRATE_NAME}_${DIST_VERSION}-${TARGET}"
 DIST_EXT="tar.gz"
 DIST_PATH="target/dist/${DIST_NAME}"
 LIBZ_SYS_STATIC="1"
@@ -39,7 +41,8 @@ script = [
   'echo "FILE=${GITHUB_RELEASE_PATH_REV}${DIST_PATH}.${DIST_EXT}"',
   'echo "TARGET=${TARGET}"',
   'echo "GITHUB_REPOSITORY=${GITHUB_REPOSITORY}"',
-  "echo ${CARGO_MAKE_PROFILE} : ${DIST_PATH} : ${GITHUB_RELEASE_PATH} : ${platform}",
+  'echo "GITHUB_REF=${GITHUB_REF}"',
+  'echo ${CARGO_MAKE_PROFILE} : ${DIST_PATH} : ${GITHUB_RELEASE_PATH} : ${platform}',
 ]
 
 [tasks.zip-release-ci-flow]
@@ -189,8 +192,8 @@ script= [
 cd ${GITHUB_RELEASE_PATH}
 export GITHUB_USER=$(dirname $GITHUB_REPOSITORY)
 export GITHUB_REPO=$(basename $GITHUB_REPOSITORY)
-./github-release release --tag "${CARGO_MAKE_CRATE_VERSION}" || echo "skip"
-./github-release upload --tag "${CARGO_MAKE_CRATE_VERSION}" --name "${DIST_NAME}.${DIST_EXT}" --file "${GITHUB_RELEASE_PATH_REV}${DIST_PATH}.${DIST_EXT}"
+./github-release release --tag "${DIST_VERSION}" || echo "skip"
+./github-release upload --tag "${DIST_VERSION}" --name "${DIST_NAME}.${DIST_EXT}" --file "${GITHUB_RELEASE_PATH_REV}${DIST_PATH}.${DIST_EXT}"
 ''',
 ]
 
@@ -204,7 +207,7 @@ script= [
 '''
 cd ${GITHUB_RELEASE_PATH}
 $GITHUB_USER,$GITHUB_REPO=$GITHUB_REPOSITORY.split("/")
-github-release.exe release --tag "${CARGO_MAKE_CRATE_VERSION}" || echo "skip"
-github-release.exe upload --tag "${CARGO_MAKE_CRATE_VERSION}" --name "${DIST_NAME}.${DIST_EXT}" --file "${GITHUB_RELEASE_PATH_REV}${DIST_PATH}.${DIST_EXT}"
+github-release.exe release --tag "${DIST_VERSION}" || echo "skip"
+github-release.exe upload --tag "${DIST_VERSION}" --name "${DIST_NAME}.${DIST_EXT}" --file "${GITHUB_RELEASE_PATH_REV}${DIST_PATH}.${DIST_EXT}"
 ''',
 ]

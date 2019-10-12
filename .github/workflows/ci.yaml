@@ -28,6 +28,8 @@ jobs:
         rust-version: ${{ matrix.rust_toolchain }}
     - uses: actions/checkout@v1
     - name: Setup cargo-make
-      run: cargo install cargo-make
+      run: |
+        cargo install cargo-make
+        cargo make debug
     - name: Run tests
       run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} --env TARGET=${{matrix.os.target}} ci-flow
