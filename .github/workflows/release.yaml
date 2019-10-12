@@ -28,14 +28,14 @@ jobs:
       TARGET: ${{matrix.os.target}}
 
     steps:
-    - uses: hecrj/setup-rust-action@v1
+    - uses: actions-rs/toolchain@v1
       with:
-        rust-version: ${{ matrix.rust_toolchain }}
+        toolchain: ${{ matrix.rust_toolchain }}
+        override: true
+    - uses: davidB/rust-cargo-make@releases/v1
+      with:
+        version: 0.22.2
     - uses: actions/checkout@v1
-    - name: Setup cargo-make
-      run: |
-        cargo install cargo-make
-        cargo make debug
     - name: Make zip-release-ci-flow
       run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} zip-release-ci-flow
     - name: Upload to gitHub release

@@ -32,12 +32,11 @@ jobs:
     #     rust-version: ${{ matrix.rust_toolchain }}
     - uses: actions-rs/toolchain@v1
       with:
-          toolchain: ${{ matrix.rust_toolchain }}
-          override: true
+        toolchain: ${{ matrix.rust_toolchain }}
+        override: true
+    - uses: davidB/rust-cargo-make@releases/v1
+      with:
+        version: 0.22.2
     - uses: actions/checkout@v1
-    - name: Setup cargo-make
-      run: |
-        cargo install cargo-make
-        cargo make debug
     - name: Run tests
       run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} --env TARGET=${{matrix.os.target}} ci-flow
