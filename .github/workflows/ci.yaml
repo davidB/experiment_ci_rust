@@ -24,9 +24,13 @@ jobs:
             profile: windows
 
     steps:
-    - uses: hecrj/setup-rust-action@v1
+    # - uses: hecrj/setup-rust-action@v1
+    #   with:
+    #     rust-version: ${{ matrix.rust_toolchain }}
+    - uses: actions-rs/toolchain@v1
       with:
-        rust-version: ${{ matrix.rust_toolchain }}
+          toolchain: ${{ matrix.rust_toolchain }}
+          override: true
     - uses: actions/checkout@v1
     - name: Setup cargo-make
       run: |
