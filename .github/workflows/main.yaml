@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v1
       - name: Hello world action step
         uses: ./ # Uses an action in the root directory
-        id: hello
+        id: setup-cargo-make
         with:
           who-to-greet: 'Mona the Octocat'
       # Use the output from the `hello` step

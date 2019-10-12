@@ -1,13 +1,17 @@
-name: 'Hello World'
+name: 'Setup cargo-make'
 description: 'Greet someone and record the time'
 inputs:
   who-to-greet:  # id of input
     description: 'Who to greet'
     required: true
     default: 'World'
+  version:  # id of input
+    description: 'version of cargo-make to install'
+    required: false
+    default: '0.22.2'
 outputs:
   time: # id of output
     description: 'The time we greeted you'
 runs:
   using: 'node12'
-  main: 'dist/index.js'
+  main: 'index.js'
