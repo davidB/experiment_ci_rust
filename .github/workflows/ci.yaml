@@ -3,7 +3,7 @@ name: ci-flow
 on:
   push:
     tags-ignore:
-      - "*"
+      - "[0-9]+.[0-9]+.[0-9]+*"
 
 jobs:
   build:
