@@ -1,6 +1,6 @@
 [package]
 name = "experiment_ci_rust"
-version = "0.4.0"
+version = "0.4.4"
 authors = ["David Bernard <david.bernard.31@gmail.com>"]
 edition = "2018"
 
