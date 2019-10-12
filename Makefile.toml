@@ -40,7 +40,8 @@ script_runner = "@shell"
 script = [
   'echo "FILE=${GITHUB_RELEASE_PATH_REV}${DIST_PATH}.${DIST_EXT}"',
   'echo "TARGET=${TARGET}"',
-  'echo "DIST_VERSION=${DIST_VERSION}"'
+  'echo "DIST_VERSION=${DIST_VERSION}"',
+  'echo "TAG=${TAG}"',
   'echo "GITHUB_REPOSITORY=${GITHUB_REPOSITORY}"',
   'echo "GITHUB_REF=${GITHUB_REF}"',
   'echo ${CARGO_MAKE_PROFILE} : ${DIST_PATH} : ${GITHUB_RELEASE_PATH} : ${platform}',
