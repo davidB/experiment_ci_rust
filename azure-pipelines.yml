@@ -10,15 +10,18 @@ trigger:
 strategy:
   matrix:
     linux:
-      imageName: 'ubuntu-latest'
+      # 'ubuntu-latest'
+      imageName: 'ubuntu-16.04'
       TARGET: x86_64-unknown-linux-gnu
       PROFILE: linux
     macos:
-      imageName: 'macOS-latest'
+      # 'macOS-latest'
+      imageName: 'macos-10.13'
       TARGET: x86_64-apple-darwin
       PROFILE: mac
     windows:
-      imageName: 'windows-latest'
+      #'windows-latest'
+      imageName: 'vs2017-win2016'
       TARGET: x86_64-pc-windows-msvc
       PROFILE: windows
 
@@ -61,7 +64,7 @@ steps:
 
 # powershell is available on the 3 platforms
 - powershell: |
-    $CargoMakeVersion = & cargo make --version
+    $CargoMakeVersion = & cargo make --version -ErrorAction SilentlyContinue
     if ($CargoMakeVersion -ne "cargo-make $(CARGO_MAKE_VERSION)") {
       cargo install --version $(CARGO_MAKE_VERSION) --force cargo-make
     }
