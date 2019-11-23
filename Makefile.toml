@@ -234,7 +234,7 @@ sudo snap install snapcraft --classic
 hash -r
 echo "${SNAPCRAFT_TOKEN}" | snapcraft login --with -
 # multipass can not run on ubuntu-18.04 vm of github action
-sudo snapcraft --destructive-mode
+snapcraft --destructive-mode
 snapcraft push --release ${SNAPCRAFT_CHANNEL} *.snap
 rm -f *.snap
 ''',
