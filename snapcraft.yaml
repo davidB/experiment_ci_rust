@@ -1,0 +1,20 @@
+name: experiment-ci-rust
+version: git
+summary: a test for CI and publishing rust
+description: |
+  long description TODO
+
+grade: stable
+confinement: devmode
+base: core18
+
+parts:
+  ffizer:
+    plugin: rust
+    rust-channel: stable
+    source: .
+    # build-packages: ["pkg-config", "libssl-dev"] # Required to prevent OpenSSL errors.
+
+apps:
+  ffizer:
+    command: experiment_ci_rust

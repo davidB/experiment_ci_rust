@@ -28,20 +28,24 @@ jobs:
       TARGET: ${{matrix.os.target}}
 
     steps:
-    - uses: actions-rs/toolchain@v1
-      with:
-        toolchain: ${{ matrix.rust_toolchain }}
-        override: true
-    - uses: davidB/rust-cargo-make@v1
-      with:
-        version: 0.22.2
-    - uses: actions/checkout@v1
-    - name: Make zip-release-ci-flow
-      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} zip-release-ci-flow
-    - name: Upload to gitHub release
-      run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} github-upload-flow
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        TAG: ${{ github.ref }}
-        # GITHUB_REPOSITORY: ${{ GITHUB_REPOSITORY }}
-
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust_toolchain }}
+          override: true
+      - uses: davidB/rust-cargo-make@v1
+        with:
+          version: 0.22.2
+      - uses: actions/checkout@v1
+      - name: Make zip-release-ci-flow
+        run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} zip-release-ci-flow
+      - name: Upload to gitHub release
+        run: cargo make --disable-check-for-updates --profile ${{ matrix.os.profile }} github-upload-flow
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref }}
+          # GITHUB_REPOSITORY: ${{ GITHUB_REPOSITORY }}
+      - name: Update snapcraft
+        run: cargo make snapcraft-push
+        env:
+          SNAPCRAFT_TOKEN: ${{ secrets.SNAPCRAFT_TOKEN }}
+          SNAPCRAFT_CHANNEL: beta
