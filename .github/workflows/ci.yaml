@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - master
-      - 'releases/*'
+      - "releases/*"
     # tags-ignore:
     #   - "[0-9]+.[0-9]+.[0-9]+*"
 
@@ -19,10 +19,10 @@ jobs:
           - imageName: ubuntu-18.04
             target: x86_64-unknown-linux-gnu
             profile: linux
-          - imageName: 'macOS-10.14'
+          - imageName: "macOS-latest"
             target: x86_64-apple-darwin
             profile: mac
-          - imageName: 'windows-2019'
+          - imageName: "windows-2019"
             target: x86_64-pc-windows-msvc
             profile: windows
 
