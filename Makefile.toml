@@ -230,12 +230,12 @@ script= [
 lsb_release -a
 sudo snap install snapcraft --classic
 # sudo snap install multipass --classic --beta
-# sudo chown root:root /
+sudo chown root:root /
 hash -r
 echo "${SNAPCRAFT_TOKEN}" | snapcraft login --with -
 # multipass can not run on ubuntu-18.04 vm of github action
-snapcraft --destructive-mode
-snapcraft push --release ${SNAPCRAFT_CHANNEL} *.snap
-rm -f *.snap
+sudo snapcraft --destructive-mode
+sudo snapcraft push --release ${SNAPCRAFT_CHANNEL} *.snap
+sudo rm -f *.snap
 ''',
 ]
