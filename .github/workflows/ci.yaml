@@ -19,22 +19,29 @@ jobs:
           - imageName: ubuntu-18.04
             target: x86_64-unknown-linux-gnu
             profile: linux
+            profile_rustup: default
+            profile_ci_flow: ci-static-code-analysis-tasks
           - imageName: "macOS-latest"
             target: x86_64-apple-darwin
             profile: mac
+            profile_rustup: minimal
+            profile_ci_flow: dev
           - imageName: "windows-2019"
             target: x86_64-pc-windows-msvc
             profile: windows
+            profile_rustup: minimal
+            profile_ci_flow: dev
 
     steps:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.rust_toolchain }}
           override: true
+          profile: ${{matrix.os.profile_rustup}}
       - uses: davidB/rust-cargo-make@v1
       - uses: actions/checkout@v1
       - name: Run tests
-        run: cargo make --profile ci-static-code-analysis-tasks --env TARGET=${{matrix.os.target}} ci-flow
+        run: cargo make --profile ${{matrix.os.profile_ci_flow}} --env TARGET=${{matrix.os.target}} ci-flow
         env:
           # for list of xcode sdk see https://help.github.com/en/actions/automating-your-workflow-with-github-actions/software-installed-on-github-hosted-runners#xcode
           # DEVELOPER_DIR: "/Applications/Xcode_11.app/Contents/Developer"
