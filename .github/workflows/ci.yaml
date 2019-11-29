@@ -37,7 +37,7 @@ jobs:
         run: cargo make --profile ci-static-code-analysis-tasks --env TARGET=${{matrix.os.target}} ci-flow
         env:
           # for list of xcode sdk see https://help.github.com/en/actions/automating-your-workflow-with-github-actions/software-installed-on-github-hosted-runners#xcode
-          DEVELOPER_DIR: "/Applications/Xcode_11.app/Contents/Developer"
+          # DEVELOPER_DIR: "/Applications/Xcode_11.app/Contents/Developer"
           CARGO_MAKE_RUN_CODECOV: "true"
           # to have CODECOV_TOKEN go to https://codecov.io/gh/${GITHUB_USER}/${GITHUB_REPO}
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

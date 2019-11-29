@@ -28,6 +28,11 @@ GITHUB_RELEASE_PATH_REV="../../../../"
 [env.mac]
 GITHUB_RELEASE_PATH="target/bin/darwin/amd64"
 GITHUB_RELEASE_PATH_REV="../../../../"
+# workaround for "____chkstk_darwin ... which was built for Mac OS X 10.15 /usr/lib/libSystem.B.dylib"
+# see https://github.com/sharkdp/bat/issues/680
+# if DevelopmentTools.clang_build_version >= 1010
+CFLAGS="$CFLAGS -fno-stack-check"
+RUSTFLAGS="-Clink-args=-Wl,-bind_at_load"
 
 [env.windows]
 DIST_PATH="target\\dist\\${DIST_NAME}"
