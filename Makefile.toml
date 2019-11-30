@@ -26,10 +26,11 @@ DIST_VERSION = "${CARGO_MAKE_CRATE_VERSION}"
 DIST_NAME = "${CARGO_MAKE_CRATE_NAME}_${DIST_VERSION}-${TARGET}"
 DIST_EXT = { source = "${CARGO_MAKE_RUST_TARGET_OS}", default_value = "tar.gz", mapping = { windows = "zip" }}
 DIST_PATH ="target/dist/${DIST_NAME}"
-# GITHUB_TOKEN =
-GITHUB_REPOSITORY = "davidB/experiment_ci_rust"
 GITHUB_RELEASE_VERSION = "v0.7.2"
 GITHUB_RELEASE_PATH = { source = "${CARGO_MAKE_RUST_TARGET_OS}", mapping = { linux = "target/bin/linux/amd64", macos = "target/bin/darwin/amd64", windows = "target/bin/windows/amd64" }}
+# provide by environment
+# GITHUB_TOKEN =
+# GITHUB_REPOSITORY =
 
 [tasks.debug]
 dependencies = ["dist_env"]
@@ -160,10 +161,8 @@ args = ["release", "${@}"]
 
 [tasks.github-upload-flow]
 description = "Upload dist on githup release"
-condition = { env_set = [ "GITHUB_REPOSITORY", "GITHUB_TOKEN", "DIST_NAME", "DIST_PATH", "DIST_EXT"], channels = ["stable"] }
 dependencies = [
   "dist_env",
-  "github-release-install",
   "github-upload",
 ]
 
@@ -173,6 +172,7 @@ mac_alias = "github-release-install_mac"
 windows_alias = "github-release-install_windows"
 
 [tasks.github-release-install_mac]
+condition = { files_not_exist = [ "${GITHUB_RELEASE_PATH}/github-release" ]}
 script = [
   '''
   cd target
@@ -183,6 +183,7 @@ script = [
 ]
 
 [tasks.github-release-install_linux]
+condition = { files_not_exist = [ "${GITHUB_RELEASE_PATH}/github-release" ]}
 script = [
   '''
   cd target
@@ -211,6 +212,16 @@ script = [
   '''
 ]
 
+[tasks.check_GITHUB_REPOSITORY]
+condition = { env_not_set = [ "GITHUB_REPOSITORY" ] }
+script_runner = "@shell"
+script = ['''echo "env variable GITHUB_REPOSITORY is not set"''']
+
+[tasks.check_GITHUB_TOKEN]
+condition = { env_not_set = [ "GITHUB_TOKEN" ] }
+script_runner = "@shell"
+script = ['''echo "env variable GITHUB_TOKEN is not set"''']
+
 [tasks.github-upload]
 windows_alias = "github-upload_windows"
 # github-release use env variable GITHUB_TOKEN, GITHUB_REPO, GITHUB_USER
@@ -223,6 +234,11 @@ script= [
   ${GITHUB_RELEASE_PATH}/github-release release --tag "${DIST_VERSION}" || echo "ignore error"
   ${GITHUB_RELEASE_PATH}/github-release upload --tag "${DIST_VERSION}" --name "${DIST_NAME}.${DIST_EXT}" --file "${DIST_PATH}.${DIST_EXT}"
   '''
+]
+dependencies = [
+  "check_GITHUB_REPOSITORY",
+  "check_GITHUB_TOKEN",
+  "github-release-install",
 ]
 
 [tasks.github-upload_windows]
@@ -239,6 +255,11 @@ script = [
   & "${env:GITHUB_RELEASE_PATH}\\github-release.exe" release --tag "$env:DIST_VERSION"
   & "${env:GITHUB_RELEASE_PATH}\\github-release.exe" upload --tag "$env:DIST_VERSION" --name ($env:DIST_NAME + '.' + $env:DIST_EXT) --file ($env:DIST_PATH + '.' + $env:DIST_EXT)
   '''
+]
+dependencies = [
+  "check_GITHUB_REPOSITORY",
+  "check_GITHUB_TOKEN",
+  "github-release-install",
 ]
 
 [tasks.snapcraft-push]
