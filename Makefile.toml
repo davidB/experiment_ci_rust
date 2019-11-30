@@ -84,9 +84,8 @@ script = [
   mkdir -p ${DIST_PATH}
   cp target/${TARGET}/release/${CARGO_MAKE_CRATE_NAME} ${DIST_PATH}/
   strip ${DIST_PATH}/${CARGO_MAKE_CRATE_NAME}
-  cp LICENSE* ${DIST_PATH}/
+  cp LICENSE* ${DIST_PATH}/ || echo "ignore if no LICENSE"
   # "cp README* ${DIST_PATH}/
-  # "zip -r ${DIST_PATH}.zip ${DIST_PATH}
   tar -czvf "${DIST_PATH}.${DIST_EXT}" -C "${DIST_PATH}" "${CARGO_MAKE_CRATE_NAME}"
   '''
 ]
