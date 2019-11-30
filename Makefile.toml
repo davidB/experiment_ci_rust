@@ -3,7 +3,7 @@
 RUST_TEST_THREADS = "1"
 CARGO_MAKE_TEST_COVERAGE_BINARY_FILTER = "cli-[a-z0-9]*$\\|makers-[a-z0-9]*$\\|${CARGO_MAKE_TEST_COVERAGE_DEFAULT_BINARY_FILTER}"
 # TARGET is  {arch}-{vendor}-{sys}-{abi} the output of rustc --print target-list
-TARGET = { source = "${CARGO_MAKE_RUST_TARGET_ARCH}-${CARGO_MAKE_RUST_TARGET_VENDOR}-${CARGO_MAKE_RUST_TARGET_OS}-${CARGO_MAKE_RUST_TARGET_ENV}", mapping = { macos = "x86_64-apple-darwin" }}
+TARGET = { source = "${CARGO_MAKE_RUST_TARGET_ARCH}-${CARGO_MAKE_RUST_TARGET_VENDOR}-${CARGO_MAKE_RUST_TARGET_OS}-${CARGO_MAKE_RUST_TARGET_ENV}", mapping = { x86_64-apple-macos- = "x86_64-apple-darwin" }}
 LIBZ_SYS_STATIC = "1"
 PKG_CONFIG_ALLOW_CROSS = "1"
 # see https://github.com/naftulikay/rust-openssl-static-example
