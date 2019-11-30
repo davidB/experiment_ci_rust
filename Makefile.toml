@@ -233,7 +233,7 @@ $env:GITHUB_USER,$env:GITHUB_REPO=$($env:GITHUB_REPOSITORY).split("/")
 
 [tasks.snapcraft-push]
 # to create SNAPCRAFT_TOKEN `snapcraft export-login --snaps $SNAP_NAME --channels edge,beta,candidate -`
-condition = { platforms = ["windows", "linux"], env_set = [ "SNAPCRAFT_TOKEN", "SNAPCRAFT_CHANNEL"] }
+condition = { platforms = ["linux"], env_set = [ "SNAPCRAFT_TOKEN", "SNAPCRAFT_CHANNEL"] }
 script_runner = "bash"
 script= [
 '''
